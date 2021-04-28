@@ -1,11 +1,11 @@
 import numpy as np
 
-filestub = "radars"
+filestub = "test"
 
 manualscale = 0
-addextrusion = 0
+addextrusion = 1
 
-escale = 1
+escale = 0.5
 retractmm= 3
 
 width = 72.025
@@ -74,7 +74,7 @@ while 1:
   output += 'G1 Z2\n'
 
   if addextrusion:
-    output += 'G1 E' + str(e)
+    output += 'G1 E' + str(e) + '\n'
 
   while line != '' and line != '\n':
     comma = line.find(',')
@@ -92,7 +92,7 @@ while 1:
 
     if addextrusion:
       e += escale * np.sqrt((x - xprev) ** 2 + (y - yprev) ** 2)
-      output += " E" + e + "\n"
+      output += " E" + str(e) + "\n"
     else:
       output += "\n"
 
@@ -105,7 +105,7 @@ while 1:
   else:
     output += 'G1 F300 Z12\nG1 F1200\n'
     if addextrusion:
-      output += 'G1 E' + str(e) - retractmm
+      output += 'G1 E' + str(e - retractmm) + '\n'
 
 file.close()
 filename = filestub + '.gcode'
