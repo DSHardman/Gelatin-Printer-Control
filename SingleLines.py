@@ -1,6 +1,13 @@
+import numpy as np
+
 filestub = "radars"
 
 manualscale = 0
+addextrusion = 0
+
+escale = 1
+retractmm= 3
+
 width = 72.025
 height = 92.127
 
@@ -48,42 +55,57 @@ file = open(filename, 'r+')
 output = ';FLAVOR:Marlin\nM105\nM109 S0\nM82 ;absolute extrusion mode\nG92 E0 ;Reset Extruder\nM92 E1 ;Steps per ' \
          'mm\nG92 E0\nM107\nG1 F300 Z12\nG1 F1200\n\n'
 
+e = 0
 line = file.readline()
 while 1:
-  # line = line.replace(',', ' Y')
-  # output += "G1 X" + line
   comma = line.find(',')
 
   if manualscale:
-    output += "G1 X" + str(xscale*(float(line[0:4])-xmin)+xstart) + " Y" + str(
-      yscale*(float(line[comma + 1:comma + 5])-ymin)+ystart) + "\n"
+    x = xscale * (float(line[0:4]) - xmin) + xstart
+    y = yscale * (float(line[comma + 1:comma + 5]) - ymin) + ystart
+
   else:
-    output += "G1 X" + str(float(line[0:4])-xmin+xstart) + " Y" + str(
-      float(line[comma + 1:comma + 5])-ymin+ystart) + "\n"
+    x = float(line[0:4]) - xmin + xstart
+    y = float(line[comma + 1:comma + 5]) - ymin + ystart
+
+  output += "G1 X" + str(x) + " Y" + str(y)
 
   line = file.readline()
   output += 'G1 Z2\n'
+
+  if addextrusion:
+    output += 'G1 E' + str(e)
+
   while line != '' and line != '\n':
-    # line = line.replace(',', ' Y')
     comma = line.find(',')
 
+    xprev = x
+    yprev = y
     if manualscale:
-      output += "G1 X" + str(xscale * (float(line[0:4]) - xmin) + xstart) + " Y" + str(
-        yscale * (float(line[comma + 1:comma + 5]) - ymin) + ystart) + "\n"
+      x = xscale * (float(line[0:4]) - xmin) + xstart
+      y = yscale * (float(line[comma + 1:comma + 5]) - ymin) + ystart
     else:
-      output += "G1 X" + str(float(line[0:4]) - xmin + xstart) + " Y" + str(
-        float(line[comma + 1:comma + 5]) -ymin+ystart) + "\n"
+      x = float(line[0:4]) - xmin + xstart
+      y = float(line[comma + 1:comma + 5]) - ymin + ystart
+
+    output += "G1 X" + str(x) + " Y" + str(y)
+
+    if addextrusion:
+      e += escale * np.sqrt((x - xprev) ** 2 + (y - yprev) ** 2)
+      output += " E" + e + "\n"
+    else:
+      output += "\n"
 
     line = file.readline()
 
-  # output = output[:-4]
   line = file.readline()
   if line == '':
     output += '\nG1 Z30'
     break
   else:
     output += 'G1 F300 Z12\nG1 F1200\n'
-    # line = file.readline()
+    if addextrusion:
+      output += 'G1 E' + str(e) - retractmm
 
 file.close()
 filename = filestub + '.gcode'
