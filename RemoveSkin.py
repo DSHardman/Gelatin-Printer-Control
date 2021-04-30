@@ -1,4 +1,4 @@
-filestub = "test"
+filestub = "HandSkin"
 filename = filestub + '.gcode'
 file = open(filename, 'r')
 lines = file.readlines()

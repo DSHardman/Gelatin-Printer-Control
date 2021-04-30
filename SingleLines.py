@@ -1,12 +1,12 @@
 import numpy as np
 
-filestub = "test"
+filestub = "HandLines"
 
 manualscale = 1
 addextrusion = 1
 
-escale = 0.2
-retractmm= 20
+escale = 0.15
+retractmm= 70
 
 width = 72.025
 height = 92.127
@@ -52,7 +52,7 @@ file = open(filename, 'r+')
 #for i in range(10):
 #  line = file.readline()
 
-output = ';FLAVOR:Marlin\nM105\nM109 S0\nM82 ;absolute extrusion mode\nG92 E0 ;Reset Extruder\nM92 E10 ;Steps per ' \
+output = ';FLAVOR:Marlin\nM105\nM109 S0\nM82 ;absolute extrusion mode\nG92 E-1 ;Reset Extruder\nM92 E10 ;Steps per ' \
          'mm\nG92 E0\nM107\nG1 F300 Z12\nG1 F1200\n\n'
 
 e = 0
@@ -71,10 +71,11 @@ while 1:
   output += "G1 X" + str(x) + " Y" + str(y) + '\n'
 
   line = file.readline()
-  output += 'G1 Z2\n'
 
   if addextrusion:
-    output += 'G1 F1000 E' + str(e) + '\n'
+    output += 'G1 F5000 E' + str(e) + '\n'
+
+  output += 'G1 Z2\n'
 
   first = 1
   while line != '' and line != '\n':
@@ -90,7 +91,7 @@ while 1:
       y = float(line[comma + 1:comma + 5]) - ymin + ystart
 
     if first:
-      output += "G1 F1200 X" + str(x) + " Y" + str(y)
+      output += "G1 F300 X" + str(x) + " Y" + str(y)
       first = 0
     else:
       output += "G1 X" + str(x) + " Y" + str(y)
@@ -105,12 +106,12 @@ while 1:
 
   line = file.readline()
   if line == '':
-    output += '\nG1 Z30'
+    output += '\nG1 Z30\nM18 E'
     break
   else:
-    if addextrusion:
-      output += 'G1 F1000 E' + str(e - retractmm) + '\n'
     output += 'G1 F300 Z12\nG1 F1200\n'
+    if addextrusion:
+      output += 'G1 F5000 E' + str(e - retractmm) + '\n'
 
 file.close()
 filename = filestub + '.gcode'
