@@ -2,8 +2,10 @@ import numpy as np
 
 filestub = "HandLines"
 
-manualscale = 1
+manualscale = 0
 addextrusion = 1
+
+zoffset = 2
 
 escale = 0.15
 retractmm= 70
@@ -11,8 +13,11 @@ retractmm= 70
 width = 72.025
 height = 92.127
 
-xstart = 27
-ystart = 98
+# xstart = 34  # hand at -40
+# ystart = 60  # hand at -40
+
+xstart = 24  # radar at -34 / -32.7
+ystart = 92  # radar at -34 / -32.7
 
 
 filename = filestub + '.xyz'
@@ -24,8 +29,6 @@ ymin = 10000
 ymax = -10000
 line = 1
 file = open(filename, 'r+')
-#for i in range(10):
-#  line = file.readline()
 
 line = file.readline()
 while 1:
@@ -53,7 +56,9 @@ file = open(filename, 'r+')
 #  line = file.readline()
 
 output = ';FLAVOR:Marlin\nM105\nM109 S0\nM82 ;absolute extrusion mode\nG92 E-1 ;Reset Extruder\nM92 E10 ;Steps per ' \
-         'mm\nG92 E0\nM107\nG1 F300 Z12\nG1 F1200\n\n'
+         'mm\nG92 E0\nM107\nG1 F300 Z12\nG1 F1200\nG1 X25.00 Y42.00\nG1 F5000 E0\nG1 Z4\nG1 F300 X65 Y42 E6\nG1 F300' \
+         'Z14\nG1 F1200\nG92 E0\n\n'
+
 
 e = 0
 line = file.readline()
@@ -75,7 +80,7 @@ while 1:
   if addextrusion:
     output += 'G1 F5000 E' + str(e) + '\n'
 
-  output += 'G1 Z2\n'
+  output += 'G1 Z' + str(2+zoffset) + '\n'
 
   first = 1
   while line != '' and line != '\n':
@@ -106,14 +111,15 @@ while 1:
 
   line = file.readline()
   if line == '':
-    output += '\nG1 Z30\nM18 E'
+    output += '\nG1 F5000 E' + str(e - retractmm) + '\nG1 Z30\nM18 E'
     break
   else:
-    output += 'G1 F300 Z12\nG1 F1200\n'
+    output += 'G1 F300 Z' + str(12+zoffset) + '\nG1 F1200\n'
     if addextrusion:
       output += 'G1 F5000 E' + str(e - retractmm) + '\n'
 
 file.close()
+
 filename = filestub + '.gcode'
 file = open(filename, 'w')
 file.write(output)
