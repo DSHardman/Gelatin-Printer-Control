@@ -27,7 +27,8 @@ void loop() {
 
   sensorValue = (sensorValue*resistor)/(1 - sensorValue); // convert to resistance
 
-  sensorValue = (sensorValue - 2000)/7.7; // convert to temperature of Pt2000 thermistor, assuming linearity
+  sensorValue = (sensorValue - 2000)/7.7 - 4; // convert to temperature of Pt2000 thermistor, assuming linearity
+  // -4 gives a response matching that of the previous K-type thermocouple being used
  
   Serial.println(sensorValue);
   Serial.print(" ");
@@ -35,9 +36,11 @@ void loop() {
   // Implement bang-bang temperature control, with small amount of hysteresis:
   if (sensorValue < (targetTemp - 0.5)) {
     digitalWrite(mosfetPin, HIGH);
+    Serial.print("ON\n");
   }
   else if (sensorValue > (targetTemp + 0.5)) {
-    digitalWrite(mosfetPin, Low);
+    digitalWrite(mosfetPin, LOW);
+    Serial.print("OFF\n");
   }
  
 }
