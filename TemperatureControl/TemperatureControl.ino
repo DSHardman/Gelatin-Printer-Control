@@ -1,7 +1,7 @@
 int sensorPin = A0;
 int mosfetPin = 7; // controlling syringe heaters
 
-float targetTemp = 45; // in Celsius
+float targetTemp = 50; // in Celsius
 
 float resistor = 820; // Value of upper resistor in potential divider
 
