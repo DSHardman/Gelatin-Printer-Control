@@ -1,7 +1,7 @@
 int sensorPin1 = A0;    // select the input pin for the potentiometer
-int sensorPin2 = A0;
-int sensorPin3 = A0;
-int sensorPin4 = A0;
+int sensorPin2 = A1;
+int sensorPin3 = A2;
+int sensorPin4 = A3;
 
 int sensorValue1 = 0;  // variable to store the value coming from the sensor
 int sensorValue2 = 0;
