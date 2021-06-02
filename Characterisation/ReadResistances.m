@@ -45,6 +45,9 @@ plotresults(Fres);
 plotresults(FCAres);
 ylabel('Resistance (Ohms)');
 xlabel('Time (h)');
+legend({'A';'E';'F';'FCA'}, 'Location', 'nw')
+set(gca, 'LineWidth', 2, 'FontSize', 15);
+box off
 
 function dataout = converttores(data, kres)
     dataout = zeros(size(data));
@@ -54,5 +57,7 @@ function dataout = converttores(data, kres)
 end
 
 function plotresults(results)
-    plot(0:1/6:((length(results)-1)/6), results);
+    plot(0:1/6:((length(results)-1)/6), results, 'LineWidth', 2);
+    %plot(0:1/6:((length(results)-1)/6), results/results(1), 'LineWidth',
+    %2); %relative resistance
 end
