@@ -57,7 +57,6 @@ function dataout = converttores(data, kres)
 end
 
 function plotresults(results)
-    plot(0:1/6:((length(results)-1)/6), results, 'LineWidth', 2);
-    %plot(0:1/6:((length(results)-1)/6), results/results(1), 'LineWidth',
-    %2); %relative resistance
+    %plot(0:1/6:((length(results)-1)/6), results, 'LineWidth', 2);
+    plot(0:1/6:((length(results)-1)/6), results/results(1), 'LineWidth',2); %relative resistance
 end
