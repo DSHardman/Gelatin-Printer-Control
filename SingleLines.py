@@ -1,6 +1,6 @@
 import numpy as np
 
-filestub = "HandLines"
+filestub = "Horizontal"
 
 manualscale = 0
 addextrusion = 1
@@ -8,7 +8,7 @@ addextrusion = 1
 zoffset = 2
 
 escale = 0.15
-retractmm= 70
+retractmm= 5
 
 width = 72.025
 height = 92.127
@@ -16,8 +16,8 @@ height = 92.127
 # xstart = 34  # hand at -40
 # ystart = 60  # hand at -40
 
-xstart = 24  # radar at -34 / -32.7
-ystart = 92  # radar at -34 / -32.7
+xstart = -19  # radar at -34 / -32.7
+ystart = 117  # radar at -34 / -32.7
 
 
 filename = filestub + '.xyz'
