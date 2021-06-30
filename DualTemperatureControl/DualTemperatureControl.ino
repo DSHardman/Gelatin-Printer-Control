@@ -27,7 +27,8 @@ void loop() {
   sensorValue2 = 0;
   for (int i=0; i<n; i++) {
     sensorValue1 += analogRead(sensorPin1);
-    sensorValue2 += analogRead(sensorPin2);
+    //sensorValue2 += analogRead(sensorPin2);
+    sensorValue2 += analogRead(sensorPin1); // ONLY USE ONE TEMPERATURE SENSOR
     delay(100);
   }
 
