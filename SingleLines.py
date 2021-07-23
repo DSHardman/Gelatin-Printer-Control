@@ -1,8 +1,8 @@
 import numpy as np
 
-filestub = "Horizontal"
+filestub = "PneuNetM3"
 
-manualscale = 0
+manualscale = 1
 addextrusion = 1
 
 zoffset = 2
@@ -10,14 +10,14 @@ zoffset = 2
 escale = 0.15
 retractmm= 5
 
-width = 72.025
-height = 92.127
+width = 18
+height = 108
 
-# xstart = 34  # hand at -40
-# ystart = 60  # hand at -40
+# xstart = 34
+# ystart = 60
 
-xstart = -19  # radar at -34 / -32.7
-ystart = 117  # radar at -34 / -32.7
+xstart = 10
+ystart = 65
 
 
 filename = filestub + '.xyz'
