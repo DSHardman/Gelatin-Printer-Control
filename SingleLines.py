@@ -1,6 +1,6 @@
 import numpy as np
 
-filestub = "PneuNetM3"
+filestub = "GloveTraces"
 
 manualscale = 1
 addextrusion = 1
@@ -8,16 +8,13 @@ addextrusion = 1
 zoffset = 2
 
 escale = 0.15
-retractmm= 5
+retractmm = 5
 
-width = 18
-height = 108
+width = 135
+height = 95
 
-# xstart = 34
-# ystart = 60
-
-xstart = 10
-ystart = 65
+xstart = 35
+ystart = 100
 
 
 filename = filestub + '.xyz'
